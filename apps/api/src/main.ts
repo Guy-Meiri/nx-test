@@ -17,11 +17,10 @@ app.get('/pokemon', (req, res) => {
 });
 
 app.get('/search', (req, res) => {
+  const pokemonNameQuery = (req.query.q as string).toLocaleLowerCase() ?? '';
   res.send(
     pokemon.filter(({ name: { english } }) =>
-      english
-        .toLocaleLowerCase()
-        .includes((req.query.q as string).toLocaleLowerCase() ?? '')
+      english.toLocaleLowerCase().includes(pokemonNameQuery)
     )
   );
 });
