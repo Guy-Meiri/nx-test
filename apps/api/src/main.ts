@@ -4,11 +4,26 @@
  */
 
 import * as express from 'express';
+import { pokemon } from './pokemon';
 
 const app = express();
 
 app.get('/api', (req, res) => {
   res.send({ message: 'Welcome to api!' });
+});
+
+app.get('/pokemon', (req, res) => {
+  res.send(pokemon);
+});
+
+app.get('/search', (req, res) => {
+  res.send(
+    pokemon.filter(({ name: { english } }) =>
+      english
+        .toLocaleLowerCase()
+        .includes((req.query.q as string).toLocaleLowerCase() ?? '')
+    )
+  );
 });
 
 const port = process.env.port || 3333;
